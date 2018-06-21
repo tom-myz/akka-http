@@ -11,7 +11,7 @@ import com.typesafe.sslconfig.akka.AkkaSSLConfig
 import scala.collection.JavaConverters._
 import java.util.{ Optional, Collection ⇒ JCollection }
 
-import akka.http.scaladsl.UseHttp2.Negotiated
+import akka.http.scaladsl.UseHttp2.{ Negotiated, Never }
 import javax.net.ssl._
 
 import scala.collection.immutable
@@ -96,15 +96,15 @@ final class HttpsConnectionContext(
 }
 
 sealed class HttpConnectionContext(http2: UseHttp2) extends akka.http.javadsl.HttpConnectionContext(http2) with ConnectionContext {
-  def this() = this(Negotiated)
+  def this() = this(Never)
 }
-final object HttpConnectionContext extends HttpConnectionContext(Negotiated) {
+final object HttpConnectionContext extends HttpConnectionContext(Never) {
   /** Java API */
   def getInstance() = this
 
   /** Java API */
   def create(http2: UseHttp2) = HttpConnectionContext(http2)
 
-  def apply() = new HttpConnectionContext(http2 = Negotiated)
+  def apply() = new HttpConnectionContext(http2 = Never)
   def apply(http2: UseHttp2) = new HttpConnectionContext(http2)
 }
