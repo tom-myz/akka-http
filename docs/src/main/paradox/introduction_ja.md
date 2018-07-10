@@ -111,19 +111,14 @@ Scala
 Java
 :   @@snip [JacksonExampleTest.java]($test$/java/docs/http/javadsl/JacksonExampleTest.java) { #second-jackson-example }
 
-When you run this server, you can update the inventory via `curl -H "Content-Type: application/json" -X POST -d '{"name":"hhgtg","id":42}' http://localhost:8080/create-order` on your terminal - adding an item named `"hhgtg"` and having an `id=42`; and then view the inventory either in a browser, at a url like: [http://localhost:8080/item/42](http://localhost:8080/item/42) - or on the terminal,
-via `curl http://localhost:8080/item/42`.
+このサーバーを動かすと、ターミナルの`curl -H "Content-Type: application/json" -X POST -d '{"name":"hhgtg","id":42}' http://localhost:8080/create-order`コマンドからインベントリを更新、`"hhgtg"`と名付けられ`id=42`を持った項目を追加できます。インベントリの状況はブラウザで[http://localhost:8080/item/42](http://localhost:8080/item/42)のようなURLにアクセスするか、ターミナル上の`curl http://localhost:8080/item/42`コマンドで確認できます。
 
-The logic for the marshalling and unmarshalling JSON in this example is provided by the @scala["spray-json"]@java["Jackson"] library
-(details on how to use that here: @scala[@ref[JSON Support](common/json-support.md))]@java[@ref[JSON Support](common/json-support.md#json-jackson-support-java))].
+この例でのJSONのマーシャル／アンマーシャルのロジックは、 @scala["spray-json"]@java["Jackson"] ライブラリ
+(使い方の詳細は、 @scala[@ref[JSON Support](common/json-support.md)]@java[@ref[JSON Support](common/json-support.md#json-jackson-support-java)] を参照してください)で提供されています。
 
-One of the strengths of Akka HTTP is that streaming data is at its heart meaning that both request and response bodies
-can be streamed through the server achieving constant memory usage even for very large requests or responses. Streaming
-responses will be backpressured by the remote client so that the server will not push data faster than the client can
-handle, streaming requests means that the server decides how fast the remote client can push the data of the request
-body.
+Akka HTTPの強みのひとつが、ストリーミングデータが心臓部にあるということです。つまり、リクエスト・レスポンスボディの両方をサーバー経由でストリームでき、巨大なリクエスト・レスポンスに対しても一定量でのメモリ使用を達成しています。ストリームレスポンスはリモートのクライアントによってバックプレッシャーされるかもしれません。したがってサーバーがクライアントの処理速度を超えてデータを送ることはないでしょう。ストリーミングリクエストはサーバーがリモートのクライアントがどれだけ早くリクエストぼでぃのデータを送信できるか決定することを意味します。
 
-Example that streams random numbers as long as the client accepts them:
+クライアントが受け付ける限り、ランダムな数字をストリームする例を示します。
 
 Scala
 :   @@snip [HttpServerExampleSpec.scala]($test$/scala/docs/http/scaladsl/HttpServerExampleSpec.scala) { #stream-random-numbers }
@@ -131,13 +126,10 @@ Scala
 Java
 :   @@snip [HttpServerStreamRandomNumbersTest.java]($test$/java/docs/http/javadsl/HttpServerStreamRandomNumbersTest.java) { #stream-random-numbers }
 
-Connecting to this service with a slow HTTP client would backpressure so that the next random number is produced on
-demand with constant memory usage on the server. This can be seen using curl and limiting the rate
+このサービスに低速なHTTPクライアントで接続すると、バックプレッシャーが発生するでしょう。そのため、次の乱数はサーバーのメモリ使用量を一定にしてオンデマンドで送信されます。これはcurlを使ってレート制限をかけるおkとで確認できます。
 `curl --limit-rate 50b 127.0.0.1:8080/random`
 
-Akka HTTP routes easily interacts with actors. In this example one route allows for placing bids in a fire-and-forget
-style while the second route contains a request-response interaction with an actor. The resulting response is rendered
-as json and returned when the response arrives from the actor.
+Akka HTTPのルートはアクターと簡単に相互作用を起こします。この例では、一つのルートがfire-and-forget(発火し、忘れる)スタイルで、二番目のルートがアクターとのリクエスト・レスポンスをやり取りする間に値付けすることを許可します。結果のレスポンスはJSONでレンダリングされ、アクターから応答が到着した際に返却されます。
 
 Scala
 :   @@snip [HttpServerExampleSpec.scala]($test$/scala/docs/http/scaladsl/HttpServerExampleSpec.scala) { #actor-interaction }
@@ -145,11 +137,11 @@ Scala
 Java
 :   @@snip [HttpServerActorInteractionExample.java]($test$/java/docs/http/javadsl/HttpServerActorInteractionExample.java) { #actor-interaction }
 
-When you run this server, you can add an auction bid via `curl -X PUT http://localhost:8080/auction?bid=22&user=MartinO` on the terminal; and then you can view the auction status either in a browser, at the url [http://localhost:8080/auction](http://localhost:8080/auction), or, on the terminal, via `curl http://localhost:8080/auction`.
+このサーバーを実行すると、ターミナルの`curl -X PUT http://localhost:8080/auction?bid=22&user=MartinO`コマンドをから競売の値段を追加できます。その後競売のステータスをブラウザのURL [http://localhost:8080/auction](http://localhost:8080/auction) か、ターミナルの`curl http://localhost:8080/auction`のどちらでも閲覧できます。
 
-More details on how JSON marshalling and unmarshalling works can be found in the @ref[JSON Support section](common/json-support.md).
+JSONのマーシャリング・アンマーシャリングがどのように動作するかについて、さらに詳しい情報は @ref[JSON Support section](common/json-support.md) に記載されています。
 
-Read more about the details of the high level APIs in the section @ref[High-level Server-Side API](routing-dsl/index.md).
+高レベルAPIの詳細については、 @ref[High-level Server-Side API](routing-dsl/index.md) のセクションをお読みください。
 
 ## Low-level HTTP server APIs
 
