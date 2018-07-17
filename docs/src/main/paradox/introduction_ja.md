@@ -143,11 +143,10 @@ JSONのマーシャリング・アンマーシャリングがどのように動�
 
 高レベルAPIの詳細については、 @ref[High-level Server-Side API](routing-dsl/index.md) のセクションをお読みください。
 
-## Low-level HTTP server APIs
+## 低レベルHTTPサーバーAPI
 
-The low-level Akka HTTP server APIs allows for handling connections or individual requests by accepting
-@unidoc[HttpRequest] s and answering them by producing @unidoc[HttpResponse] s. This is provided by the `akka-http-core` module.
-APIs for handling such request-responses as function calls and as a @unidoc[Flow[HttpRequest, HttpResponse, \_]] are available.
+低レベルのAkka HTTP サーバー APIでは、コネクションや個別のリクエストを @unidoc[HttpRequest] で取り扱い、それらに @unidoc[HttpResponse] を作成して応答することができます。これは`akka-http-core`モジュールで提供されています。
+このようなリクエスト/レスポンスを関数呼び出しとして、そして @unidoc[Flow[HttpRequest, HttpResponse, \_]] として取り扱うことができます。
 
 Scala
 :   @@snip [HttpServerExampleSpec.scala]($test$/scala/docs/http/scaladsl/HttpServerExampleSpec.scala) { #low-level-server-example }
@@ -155,15 +154,13 @@ Scala
 Java
 :   @@snip [HttpServerLowLevelExample.java]($test$/java/docs/http/javadsl/HttpServerLowLevelExample.java) { #low-level-server-example }
 
-Read more details about the low level APIs in the section @ref[Core Server API](server-side/low-level-api.md).
+低レベルのAPIについてのさらに詳しい情報は @ref[Core Server API](server-side/low-level-api.md) のセクションをお読みください。
 
-## HTTP client API
+## HTTPクライアントAPI
 
-The client APIs provide methods for calling a HTTP server using the same @unidoc[HttpRequest] and @unidoc[HttpResponse] abstractions
-that Akka HTTP server uses but adds the concept of connection pools to allow multiple requests to the same server to be
-handled more performantly by re-using TCP connections to the server.
+クライアントAPIは、HTTPサーバーが使っているのと同じ @unidoc[HttpRequest] と @unidoc[HttpResponse] での抽象化を用いて、HTTPサーバーを呼び出すメソッドを提供します。ただしサーバーへのTCPリクエストを再利用して同じサーバーに対してよりパフォーマンス良く多重リクエストを送信するように、コネクションプールの考え方を加えています。
 
-Example simple request:
+単純なリクエストを例示します。
 
 Scala
 :   @@snip [HttpClientExampleSpec.scala]($test$/scala/docs/http/scaladsl/HttpClientExampleSpec.scala) { #single-request-example }
@@ -171,37 +168,32 @@ Scala
 Java
 :   @@snip [ClientSingleRequestExample.java]($test$/java/docs/http/javadsl/ClientSingleRequestExample.java) { #single-request-example }
 
-Read more about the details of the client APIs in the section @ref[Consuming HTTP-based Services (Client-Side)](client-side/index.md).
+クライアントAPIについてのより詳細な情報は、 @ref[Consuming HTTP-based Services (Client-Side)](client-side/index.md) のセクションをお読みください。
 
-## The modules that make up Akka HTTP
+## Akka HTTPを作るモジュール
 
-Akka HTTP is structured into several modules:
+Akka HTTPはいくつかのモジュールで構成されています。
 
-akka-http
-: Higher-level functionality, like (un)marshalling, (de)compression as well as a powerful DSL
-for defining HTTP-based APIs on the server-side, this is the recommended way to write HTTP servers
-with Akka HTTP. Details can be found in the section @ref[High-level Server-Side API](routing-dsl/index.md)
+akka-http:
+: HTTPサーバーをAkka HTTPで書くために推奨される方法である、サーバーサイドでのHTTPベースのAPI定義に向けたパワフルなDSLだけでなく、（アン）マーシャリングや圧縮/解凍のような高レベルの機能です。詳細は  @ref[High-level Server-Side API](routing-dsl/index.md) のセクションで見つけることができます。
 
 akka-http-core
-: A complete, mostly low-level, server- and client-side implementation of HTTP (incl. WebSockets)
-Details can be found in sections @ref[Core Server API](server-side/low-level-api.md) and @ref[Consuming HTTP-based Services (Client-Side)](client-side/index.md)
+: 完全な、ほとんど低レベルの、サーバー・クライアントサイドのHTTP実装(WebSocketsを含む)です。詳細は @ref[Core Server API](server-side/low-level-api.md) と @ref[Consuming HTTP-based Services (Client-Side)](client-side/index.md) のセクションで見つけることができます。
 
 akka-http-testkit
-: A test harness and set of utilities for verifying server-side service implementations
+: サーバーサイドのサービス実装を検証するための、テストハーネスとユーティリティの集合です。
 
 
 @@@ div { .group-scala }
 akka-http-spray-json
-: Predefined glue-code for (de)serializing custom types from/to JSON with [spray-json](https://github.com/spray/spray-json)
-Details can be found here: @ref[JSON Support](common/json-support.md)
+: [spray-json](https://github.com/spray/spray-json)でカスタム型をJSONから/に(デ)シリアライズするための、事前定義されたグルーコードです。詳細は @ref[JSON Support](common/json-support.md) で見つけることができます。
 @@@
 
 @@@ div { .group-scala }
 akka-http-xml
-: Predefined glue-code for (de)serializing custom types from/to XML with [scala-xml](https://github.com/scala/scala-xml)
-Details can be found here: @ref[XML Support](common/xml-support.md)
+: [scala-xml](https://github.com/scala/scala-xml)でカスタム型をJSONから/に(デ)シリアライズするための、事前定義されたグルーコードです。詳細は @ref[XML Support](common/xml-support.md)で見つかることができます。
 @@@
 @@@ div { .group-java }
 akka-http-jackson
-: Predefined glue-code for (de)serializing custom types from/to JSON with [jackson](https://github.com/FasterXML/jackson)
+: [jackson](https://github.com/FasterXML/jackson)でカスタム型をJSONから/に(デ)シリアライズするための、事前定義されたグルーコードです。
 @@@
